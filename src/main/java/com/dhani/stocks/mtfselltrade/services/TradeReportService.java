@@ -27,9 +27,12 @@ public class TradeReportService {
     private TradeRepository tradeRepository;
 
     @Autowired
+    private SendGridMailService sendGridMailService;
+
+    @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${report.mail.to:stockteam@dhani.com}")
+    @Value("${report.mail.to:abhishek.mane@dhani.com}")
     private String mailTo;
 
     public File generateCsvFileOnly() throws Exception {
@@ -118,16 +121,21 @@ public class TradeReportService {
             }
         }
 
-        sendMailWithAttachment(file);
+        sendGridMailService.sendEmailWithAttachment(
+                "Daily MTF SELL Report - " + date,
+                "Please find attached the MTF SELL report.",
+                file
+        );
+
     }
 
-    private void sendMailWithAttachment(File file) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(mailTo);
-        helper.setSubject("Daily MTF SELL Report - " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        helper.setText("Please find attached the MTF SELL report.");
-        helper.addAttachment(file.getName(), file);
-        mailSender.send(message);
-    }
+//    private void sendMailWithAttachment(File file) throws MessagingException {
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+//        helper.setTo(mailTo);
+//        helper.setSubject("Daily MTF SELL Report - " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+//        helper.setText("Please find attached the MTF SELL report.");
+//        helper.addAttachment(file.getName(), file);
+//        mailSender.send(message);
+//    }
 }
