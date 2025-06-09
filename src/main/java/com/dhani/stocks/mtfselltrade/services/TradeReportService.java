@@ -46,7 +46,7 @@ public class TradeReportService {
 
             return new TradeCsvRow(
                     t.getExchangeOrderId(),
-                    null,
+                    "M",
                     t.getOrderParamsAccountId(),
                     scripCode,
                     series,
@@ -91,7 +91,7 @@ public class TradeReportService {
 
             return new TradeCsvRow(
                     t.getExchangeOrderId(),  // SETT_NO
-                    null,                   // SETT_TYPE
+                    "M",                   // SETT_TYPE
                     t.getOrderParamsAccountId(), // PARTY_CODE
                     scripCode,              // SCRIP_CODE
                     series,                 // SERIES
@@ -106,7 +106,7 @@ public class TradeReportService {
         File file = new File(System.getProperty("java.io.tmpdir"), fileName);
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(file))) {
-            writer.writeNext(new String[]{"SETT_NO", "SETT_TYPE", "PARTY_CODE", "SCRIP_CODE", "SERIES", "QTY", "ISIN", "NRM/M"});
+            writer.writeNext(new String[]{"SETT_NO", "SETT_TYPE", "PARTY_CODE", "SCRIP_CODE", "SERIES", "QTY", "ISIN", "NRM/MTF"});
             for (TradeCsvRow row : rows) {
                 writer.writeNext(new String[]{
                         row.getSettNo(),

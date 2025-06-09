@@ -17,8 +17,10 @@ public interface TradeRepository extends JpaRepository<TradeTable, Long> {
             + "t.order_params_product "
             + "FROM trade_feed.trades t "
             + "WHERE t.order_params_exchange_seg = 'nse_cm' "
+            + "AND t.order_params_product = 'MTF' "
             + "LIMIT 1000",
             nativeQuery = true)
+
 
     List<MtfSellTradeProjection> findMtfSellTradesForToday();
 }
